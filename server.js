@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import connectDB from "./config/db.js";
 import mongoose from "mongoose";
-import User from "./models/Users.js";
+import internRoutes from "./routes/internRoutes.js";
 
 dotenv.config();
 
@@ -12,7 +12,7 @@ const app = express();
 // Middlewares
 app.use(cors());
 app.use(express.json());
-
+app.use("/api/interns", internRoutes);
 // Connect to MongoDB
 connectDB();
 
@@ -35,32 +35,6 @@ app.get("/db-status", (req, res) => {
       : "Disconnected";
 
   res.json({ database: status });
-});
-
-// ----------------------------
-// Add User Route
-// ----------------------------
-app.post("/add-user", async (req, res) => {
-  try {
-    const { name, password, age } = req.body;
-
-    const newUser = await User.create({ name, password, age });
-
-    res.status(201).json({
-      message: "User added successfully",
-      user: newUser,
-    });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
-// ----------------------------
-// Get all users
-// ----------------------------
-app.get("/users", async (req, res) => {
-  const users = await User.find();
-  res.json(users);
 });
 
 // Start server
