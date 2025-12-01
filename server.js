@@ -4,6 +4,7 @@ import cors from "cors";
 import connectDB from "./config/db.js";
 import mongoose from "mongoose";
 import internRoutes from "./routes/internRoutes.js";
+import taskRoutes from "./routes/taskRoutes.js";  // ADD THIS LINE
 
 dotenv.config();
 
@@ -12,13 +13,23 @@ const app = express();
 // Middlewares
 app.use(cors());
 app.use(express.json());
+
+// Routes - REGISTER BOTH ROUTES
 app.use("/api/interns", internRoutes);
+app.use("/api/tasks", taskRoutes);  // ADD THIS LINE
+
 // Connect to MongoDB
 connectDB();
 
 // Default test route
 app.get("/", (req, res) => {
-  res.send("API is running...");
+  res.json({ 
+    message: "API is running...",
+    endpoints: {
+      interns: "/api/interns",
+      tasks: "/api/tasks"
+    }
+  });
 });
 
 // Check DB connection
@@ -42,4 +53,6 @@ const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
+  console.log(`📋 Intern API: http://localhost:${PORT}/api/interns`);
+  console.log(`📝 Task API: http://localhost:${PORT}/api/tasks`);
 });
