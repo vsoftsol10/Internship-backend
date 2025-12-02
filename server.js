@@ -1,7 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
-import connectDB from "./config/db.js";
+import connectDB from "./src/config/db.js";
 import mongoose from "mongoose";
 import internRoutes from "../src/routes/internRoutes.js";
 import taskRoutes from "../src/routes/taskRoutes.js";  // ADD THIS LINE
