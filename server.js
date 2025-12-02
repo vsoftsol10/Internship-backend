@@ -13,17 +13,12 @@ const app = express();
 // Middlewares
 app.use(
   cors({
-    origin: "*", // allow all origins
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 app.use(express.json());
-
-// ----------------------------
-// CONNECT TO MONGODB FIRST
-// ----------------------------
-connectDB();
 
 // ----------------------------
 // ROUTES
@@ -55,14 +50,35 @@ app.get("/db-status", (req, res) => {
       ? "Disconnecting"
       : "Disconnected";
 
-  res.json({ database: status });
+  res.json({ database: status, readyState: state });
 });
 
-// Start server
+// Health check endpoint for Render
+app.get("/health", (req, res) => {
+  res.status(200).json({ status: "ok" });
+});
+
+// ----------------------------
+// START SERVER AFTER DB CONNECTION
+// ----------------------------
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-  console.log(`📋 Intern API: http://localhost:${PORT}/api/interns`);
-  console.log(`📝 Task API: http://localhost:${PORT}/api/tasks`);
-});
+const startServer = async () => {
+  try {
+    // Wait for DB connection before starting server
+    await connectDB();
+    
+    app.listen(PORT, () => {
+      console.log(`🚀 Server running on port ${PORT}`);
+      console.log(`📋 Intern API: http://localhost:${PORT}/api/interns`);
+      console.log(`📝 Task API: http://localhost:${PORT}/api/tasks`);
+      console.log(`✅ Database connected and ready`);
+    });
+  } catch (error) {
+    console.error("❌ Failed to start server:", error.message);
+    process.exit(1);
+  }
+};
+
+// Start the server
+startServer();
