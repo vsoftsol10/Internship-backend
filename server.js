@@ -3,8 +3,8 @@ import dotenv from "dotenv";
 import cors from "cors";
 import connectDB from "./src/config/db.js";
 import mongoose from "mongoose";
-import internRoutes from "../src/routes/internRoutes.js";
-import taskRoutes from "../src/routes/taskRoutes.js";  // ADD THIS LINE
+import internRoutes from "./src/routes/internRoutes.js";
+import taskRoutes from "./src/routes/taskRoutes.js";  // ADD THIS LINE
 
 dotenv.config();
 
