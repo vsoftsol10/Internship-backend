@@ -1,10 +1,10 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
-import connectDB from "./src/config/db.js";
 import mongoose from "mongoose";
+import connectDB from "./src/config/db.js";
 import internRoutes from "./src/routes/internRoutes.js";
-import taskRoutes from "./src/routes/taskRoutes.js";  // ADD THIS LINE
+import taskRoutes from "./src/routes/taskRoutes.js";
 
 dotenv.config();
 
@@ -14,21 +14,25 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Routes - REGISTER BOTH ROUTES
-app.use("/api/interns", internRoutes);
-app.use("/api/tasks", taskRoutes);  // ADD THIS LINE
-
-// Connect to MongoDB
+// ----------------------------
+// CONNECT TO MONGODB FIRST
+// ----------------------------
 connectDB();
+
+// ----------------------------
+// ROUTES
+// ----------------------------
+app.use("/api/interns", internRoutes);
+app.use("/api/tasks", taskRoutes);
 
 // Default test route
 app.get("/", (req, res) => {
-  res.json({ 
+  res.json({
     message: "API is running...",
     endpoints: {
       interns: "/api/interns",
-      tasks: "/api/tasks"
-    }
+      tasks: "/api/tasks",
+    },
   });
 });
 
