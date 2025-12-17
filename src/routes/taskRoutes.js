@@ -101,7 +101,7 @@ router.patch("/:id", async (req, res) => {
 // Update task (PUT) - Full update
 router.put("/:id", async (req, res) => {
   try {
-    const { internId, title, description, deadline, status } = req.body;
+    const { internId, title, description, deadline, status, reason } = req.body;
 
     // Check if intern exists if internId is being updated
     if (internId) {
@@ -113,7 +113,7 @@ router.put("/:id", async (req, res) => {
 
     const updatedTask = await Task.findByIdAndUpdate(
       req.params.id,
-      { internId, title, description, deadline, status },
+      { internId, title, description, deadline, status, reason },
       { new: true, runValidators: true }
     );
 
