@@ -1,6 +1,6 @@
 import express from "express";
 import Task from "../models/task.js";
-import Intern from "../models/intern.js";
+import User from "../models/user.js";
 
 const router = express.Router();
 
@@ -47,10 +47,10 @@ router.post("/", async (req, res) => {
       return res.status(400).json({ error: "Intern ID, title, and deadline are required" });
     }
 
-    // Check if intern exists
-    const intern = await Intern.findById(internId);
-    if (!intern) {
-      return res.status(404).json({ error: "Intern not found" });
+    // Check if user exists
+    const user = await User.findById(internId);
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
     }
 
     const task = new Task({
@@ -103,11 +103,11 @@ router.put("/:id", async (req, res) => {
   try {
     const { internId, title, description, deadline, status, reason } = req.body;
 
-    // Check if intern exists if internId is being updated
+    // Check if user exists if internId is being updated
     if (internId) {
-      const intern = await Intern.findById(internId);
-      if (!intern) {
-        return res.status(404).json({ error: "Intern not found" });
+      const user = await User.findById(internId);
+      if (!user) {
+        return res.status(404).json({ error: "User not found" });
       }
     }
 

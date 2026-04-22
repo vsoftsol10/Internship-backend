@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const taskSchema = new mongoose.Schema({
   internId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Intern",
+    ref: "User",
     required: [true, "Intern ID is required"]
   },
   title: {

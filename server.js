@@ -67,10 +67,10 @@ const startServer = async () => {
   try {
     // Wait for DB connection before starting server
     await connectDB();
-    
+
     app.listen(PORT, () => {
       console.log(`🚀 Server running on port ${PORT}`);
-      console.log(`📋 Intern API: http://localhost:${PORT}/api/interns`);
+      console.log(`📋 User API: http://localhost:${PORT}/api/interns`);
       console.log(`📝 Task API: http://localhost:${PORT}/api/tasks`);
       console.log(`✅ Database connected and ready`);
     });
